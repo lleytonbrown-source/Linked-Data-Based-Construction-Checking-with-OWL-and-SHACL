@@ -1,0 +1,40 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix : <http://example.org/construction#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:TaskShape
+    a sh:NodeShape ;
+    sh:targetClass :Task ;
+
+    sh:property [
+      sh:path :startDate ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+      sh:datatype xsd:date ;
+    ] ;
+
+    sh:property [
+      sh:path :endDate ;
+      sh:minCount 1 ;
+      sh:maxCount 1 ;
+      sh:datatype xsd:date ;
+    ] .
+
+:DependencyShape
+    a sh:NodeShape ;
+    sh:targetClass :Task ;
+
+    sh:sparql [
+      sh:message "Predecessor task must finish before successor starts." ;
+
+      sh:select """
+      SELECT $this
+      WHERE {
+          $this :dependsOn ?pred .
+          ?pred :endDate ?predEnd .
+          $this :startDate ?start .
+
+          FILTER (?predEnd > ?start)
+      }
+      """
+    ] .
