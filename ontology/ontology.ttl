@@ -1,0 +1,56 @@
+@prefix ex: <http://example.org/minesite#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+##################################################
+# CLASSES
+##################################################
+
+ex:Equipment a owl:Class .
+ex:Task a owl:Class .
+
+ex:InstallationTask a owl:Class ;
+    rdfs:subClassOf ex:Task .
+
+ex:RemovalTask a owl:Class ;
+    rdfs:subClassOf ex:Task .
+
+ex:Conveyor a owl:Class ;
+    rdfs:subClassOf ex:Equipment .
+
+ex:PipeSpool a owl:Class ;
+    rdfs:subClassOf ex:Equipment .
+
+##################################################
+# TASK TYPES
+##################################################
+
+ex:BoltUp a owl:Class ;
+    rdfs:subClassOf ex:InstallationTask .
+
+ex:RigUp a owl:Class ;
+    rdfs:subClassOf ex:InstallationTask .
+
+ex:Unbolt a owl:Class ;
+    rdfs:subClassOf ex:RemovalTask .
+
+##################################################
+# PROPERTIES
+##################################################
+
+ex:actsOn a owl:ObjectProperty ;
+    rdfs:domain ex:Task ;
+    rdfs:range ex:Equipment .
+
+ex:dependsOn a owl:ObjectProperty ;
+    rdfs:domain ex:Task ;
+    rdfs:range ex:Task .
+
+ex:hasWBSTag a owl:DatatypeProperty .
+
+ex:startDate a owl:DatatypeProperty ;
+    rdfs:range xsd:date .
+
+ex:finishDate a owl:DatatypeProperty ;
+    rdfs:range xsd:date .

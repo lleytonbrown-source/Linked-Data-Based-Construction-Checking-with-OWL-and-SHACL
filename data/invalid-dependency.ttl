@@ -1,0 +1,21 @@
+@prefix ex: <http://example.org/minesite#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:A1L3R23CN0001
+    a ex:Conveyor ;
+    ex:hasWBSTag "A1L3R23CN0001" .
+
+ex:Task_001
+    a ex:Unbolt ;
+    ex:actsOn ex:A1L3R23CN0001 ;
+    ex:hasWBSTag "A1L3R23CN0001" ;
+    ex:startDate "2027-03-10"^^xsd:date ;
+    ex:finishDate "2027-03-12"^^xsd:date .
+
+ex:Task_002
+    a ex:BoltUp ;
+    ex:actsOn ex:A1L3R23CN0001 ;
+    ex:hasWBSTag "A1L3R23CN0001" ;
+    ex:startDate "2027-03-11"^^xsd:date ;
+    ex:finishDate "2027-03-15"^^xsd:date ;
+    ex:dependsOn ex:Task_001 .

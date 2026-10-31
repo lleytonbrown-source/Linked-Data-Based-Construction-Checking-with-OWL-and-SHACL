@@ -1,0 +1,13 @@
+@prefix ex: <http://example.org/minesite#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:Task_002
+    a ex:BoltUp ;
+    ex:actsOn ex:Task_001 .
+
+ex:Task_003
+    a ex:BoltUp ;
+    ex:actsOn ex:Document_001 ;
+    ex:hasWBSTag "DOC001" ;
+    ex:startDate "2027-03-10"^^xsd:date ;
+    ex:finishDate "2027-03-11"^^xsd:date .

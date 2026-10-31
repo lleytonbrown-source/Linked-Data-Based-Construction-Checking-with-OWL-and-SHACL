@@ -1,40 +1,69 @@
 @prefix sh: <http://www.w3.org/ns/shacl#> .
-@prefix : <http://example.org/construction#> .
+@prefix ex: <http://example.org/minesite#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-:TaskShape
+##################################################
+# TASK COMPLETENESS
+##################################################
+
+ex:TaskShape
     a sh:NodeShape ;
-    sh:targetClass :Task ;
+    sh:targetClass ex:Task ;
 
     sh:property [
-      sh:path :startDate ;
-      sh:minCount 1 ;
-      sh:maxCount 1 ;
-      sh:datatype xsd:date ;
+        sh:path ex:actsOn ;
+        sh:minCount 1 ;
     ] ;
 
     sh:property [
-      sh:path :endDate ;
-      sh:minCount 1 ;
-      sh:maxCount 1 ;
-      sh:datatype xsd:date ;
+        sh:path ex:hasWBSTag ;
+        sh:minCount 1 ;
+    ] ;
+
+    sh:property [
+        sh:path ex:startDate ;
+        sh:minCount 1 ;
+        sh:datatype xsd:date ;
+    ] ;
+
+    sh:property [
+        sh:path ex:finishDate ;
+        sh:minCount 1 ;
+        sh:datatype xsd:date ;
     ] .
 
-:DependencyShape
+##################################################
+# EQUIPMENT CHECK
+##################################################
+
+ex:BoltUpShape
     a sh:NodeShape ;
-    sh:targetClass :Task ;
+    sh:targetClass ex:BoltUp ;
+
+    sh:property [
+        sh:path ex:actsOn ;
+        sh:class ex:Equipment ;
+    ] .
+
+##################################################
+# DEPENDENCY CHECK
+##################################################
+
+ex:DependencyShape
+    a sh:NodeShape ;
+    sh:targetClass ex:Task ;
 
     sh:sparql [
-      sh:message "Predecessor task must finish before successor starts." ;
+        sh:message "Predecessor task must finish before successor starts." ;
 
-      sh:select """
-      SELECT $this
-      WHERE {
-          $this :dependsOn ?pred .
-          ?pred :endDate ?predEnd .
-          $this :startDate ?start .
+        sh:select """
+        SELECT $this
+        WHERE {
+            $this ex:dependsOn ?pred .
+            ?pred ex:finishDate ?predEnd .
+            $this ex:startDate ?start .
 
-          FILTER (?predEnd > ?start)
-      }
-      """
+            FILTER (?predEnd > ?start)
+        }
+        """
     ] .
